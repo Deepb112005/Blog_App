@@ -16,7 +16,7 @@
             <p class="error-message">${error}</p>
         </c:if> 
 
-        <form action="${pageContext.request.contextPath}/newPost" method="post" enctype="multipart/form-data">
+        <form class="form" action="${pageContext.request.contextPath}/newPost" method="post" enctype="multipart/form-data">
 
             <label>Title:</label><br>
             <input type="text" name="title" required><br><br>

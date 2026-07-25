@@ -15,7 +15,7 @@
             <p class="error-message">${error}</p>
         </c:if>
 
-        <form action="${pageContext.request.contextPath}/editPost" method="post" enctype="multipart/form-data">
+        <form class="form" action="${pageContext.request.contextPath}/editPost" method="post" enctype="multipart/form-data">
 
             <input type="hidden" name="id" value="${post.id}">
 

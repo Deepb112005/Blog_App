@@ -41,7 +41,7 @@ public class EditPostServlet extends HttpServlet {
         }
 
         req.setAttribute("post", post);
-        req.getRequestDispatcher("WEB-INF/views/editPost.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/views/editPost.jsp").forward(req, resp);
 
     }
 

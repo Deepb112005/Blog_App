@@ -16,7 +16,7 @@
             <p class="error-message">${error}</p>
         </c:if>
 
-        <form action="${pageContext.request.contextPath}/register" method="post">
+        <form class="form" action="${pageContext.request.contextPath}/register" method="post">
             <label>Username:</label><br>
             <input type="text" name="username" required><br><br>
 
