@@ -39,12 +39,6 @@ public class EditPostServlet extends HttpServlet {
 
         Long userId = (Long) session.getAttribute("userId");
 
-        if (post == null || !post.getUser().getId().equals(userId)) {
-            req.setAttribute("error", " you dont have permission to edit this post ");
-            req.getRequestDispatcher("WEB-INF/views/posts.jsp").forward(req, resp);
-            return;
-        }
-
         req.setAttribute("post", post);
         req.getRequestDispatcher("WEB-INF/views/editPost.jsp").forward(req, resp);
 

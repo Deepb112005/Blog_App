@@ -21,8 +21,14 @@ public class AuthFilter implements Filter {
         if (session == null || session.getAttribute("userId") == null) {
 
             session = req.getSession(true);
-            req.setAttribute("redirectAfterLogin", req.getRequestURI());
-            res.sendRedirect(req.getContextPath() + "/login" );
+
+            if (req.getQueryString() == null) {
+                session.setAttribute("redirectAfterLogin", req.getRequestURI());
+            } else {
+                session.setAttribute("redirectAfterLogin", req.getRequestURI() + "?" + req.getQueryString());
+            }
+
+            res.sendRedirect(req.getContextPath() + "/login");
             return;
         }
 

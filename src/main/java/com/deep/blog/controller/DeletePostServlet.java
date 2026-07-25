@@ -23,11 +23,6 @@ public class DeletePostServlet extends HttpServlet {
 
         HttpSession session = req.getSession(false);
 
-        if (session == null || session.getAttribute("userId") == null) {
-            resp.sendRedirect(req.getContextPath() + "/login");
-            return;
-        }
-
         Long userId = (Long) session.getAttribute("userId");
 
 

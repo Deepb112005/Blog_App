@@ -29,13 +29,6 @@ public class AddPostServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        HttpSession session = req.getSession(false);
-
-        if (session == null || session.getAttribute("userId") == null) {
-            resp.sendRedirect(req.getContextPath() + "/login");
-            return;
-        }
-
         req.getRequestDispatcher("/WEB-INF/views/newPost.jsp").forward(req, resp);
     }
 
@@ -44,11 +37,6 @@ public class AddPostServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         HttpSession session = req.getSession(false);
-
-        if (session == null || session.getAttribute("userId") == null) {
-            resp.sendRedirect(req.getContextPath() + "/login");
-            return;
-        }
 
         String title = req.getParameter("title");
         String content = req.getParameter("content");
