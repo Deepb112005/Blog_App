@@ -1,31 +1,39 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html>
 <head>
     <title>Create Post</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
 </head>
 <body>
 
-    <h2>Create New Post</h2>
-    <c:if test="${not empty error}">
-        <p style="color:red;">${error}</p>
-    </c:if> 
+    <div class="container">
 
-    <form action="${pageContext.request.contextPath}/newPost" method="post" enctype="multipart/form-data">
+        <h2>Create New Post</h2>
 
-        <label>Title:</label><br>
-        <input type="text" name="title" required><br><br>
+        <c:if test="${not empty error}">
+            <p class="error-message">${error}</p>
+        </c:if> 
 
-        <label>Content:</label><br>
-        <textarea name="content" rows="6" cols="50" required></textarea><br><br>
+        <form action="${pageContext.request.contextPath}/newPost" method="post" enctype="multipart/form-data">
 
-        <label>Image:</label><br>
-        <input type="file" name="image" accept="image/*"><br><br>
+            <label>Title:</label><br>
+            <input type="text" name="title" required><br><br>
 
-        <button type="submit">Publish</button>
-    </form>
+            <label>Content:</label><br>
+            <textarea name="content" rows="6" cols="50" required></textarea><br><br>
 
-    <p><a href="${pageContext.request.contextPath}/posts">Back to posts</a></p>
+            <label>Image:</label><br>
+            <input type="file" name="image" accept="image/*"><br><br>
 
+            <button type="submit">Publish</button>
+        </form>
+
+        <p><a href="${pageContext.request.contextPath}/posts">Back to posts</a></p>
+
+    </div>
+
+    
 </body>
 </html>
