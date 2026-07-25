@@ -5,6 +5,10 @@ import com.deep.blog.util.JpaUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.NoResultException;
+import org.hibernate.exception.ConstraintViolationException;
+
+import java.util.Collection;
+import java.util.Collections;
 
 public class UserDaoImpl implements UserDao {
 
@@ -35,7 +39,7 @@ public class UserDaoImpl implements UserDao {
             tx.commit();
         } catch (RuntimeException e) {
             if (tx.isActive()) tx.rollback();
-            throw new RuntimeException(e);
+            throw e;
         } finally {
             em.close();
         }

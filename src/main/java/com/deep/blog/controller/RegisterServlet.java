@@ -1,6 +1,7 @@
 package com.deep.blog.controller;
 
 import com.deep.blog.entity.User;
+import com.deep.blog.service.Exceptions.DuplicateUserException;
 import com.deep.blog.service.user.UserService;
 import com.deep.blog.service.user.UserServiceImpl;
 import jakarta.servlet.ServletException;
@@ -9,6 +10,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.hibernate.exception.ConstraintViolationException;
 
 import java.io.IOException;
 
@@ -27,7 +29,13 @@ public class RegisterServlet extends HttpServlet {
         String email = req.getParameter("email");
         String rawPassword = req.getParameter("password");
 
-        userService.register(username, email, rawPassword);
+        try {
+            userService.register(username, email, rawPassword);
+        } catch (DuplicateUserException e) {
+            req.setAttribute("error",   e.getMessage() + " : might be duplicate credentials!"  );
+            req.getRequestDispatcher("/WEB-INF/views/register.jsp").forward(req, resp);
+            return;
+        }
 
         User loggedInUser = userService.login(username, rawPassword);
 
