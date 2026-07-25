@@ -12,13 +12,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
 import java.io.IOException;
+import java.util.List;
 
 
 @WebServlet("/editPost")
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024,
-        maxFileSize = 1024 * 1024 * 10 ,
-        maxRequestSize =1024 * 1024 * 15
+        maxFileSize = 1024 * 1024 * 10,
+        maxRequestSize = 1024 * 1024 * 15
 )
 public class EditPostServlet extends HttpServlet {
 
@@ -29,15 +30,15 @@ public class EditPostServlet extends HttpServlet {
 
         HttpSession session = req.getSession(false);
 
-        if (session == null || session.getAttribute("userId") == null) {
-            resp.sendRedirect(req.getContextPath() + "/login");
-            return;
-        }
-
         Long postId = Long.parseLong(req.getParameter("id"));
         BlogPost post = blogPostService.getPostById(postId);
 
         Long userId = (Long) session.getAttribute("userId");
+
+        if (!post.getUser().getId().equals(userId)) {
+            resp.sendRedirect(req.getContextPath());
+            return;
+        }
 
         req.setAttribute("post", post);
         req.getRequestDispatcher("WEB-INF/views/editPost.jsp").forward(req, resp);
@@ -55,15 +56,17 @@ public class EditPostServlet extends HttpServlet {
         String newImage = ImageUtil.saveUploadedFile(part);
 
         HttpSession session = req.getSession(false);
-        Long userId = (Long)session.getAttribute("userId");
+        Long userId = (Long) session.getAttribute("userId");
 
         try {
-            blogPostService.updatePost(postId,newTitle,newContent,newImage,userId);
+            blogPostService.updatePost(postId, newTitle, newContent, newImage, userId);
         } catch (UnauthorizedActionException e) {
             req.setAttribute("error", e.getMessage());
+            List<BlogPost> posts = blogPostService.getAllPost();
+            req.setAttribute("posts", posts);
             req.getRequestDispatcher("/WEB-INF/views/posts.jsp").forward(req, resp);
             return;
-        }catch (InvalidPostDataException e) {
+        } catch (InvalidPostDataException e) {
             req.setAttribute("error", e.getMessage());
             req.setAttribute("post", blogPostService.getPostById(postId));
             req.getRequestDispatcher("/WEB-INF/views/editPost.jsp").forward(req, resp);

@@ -45,7 +45,7 @@ public class BlogPostServiceImpl implements BlogPostService {
         if (post == null) {
             throw new UnauthorizedActionException("post not found for update");
         }
-        if (post.getUser().getId().equals(currentUserId)) {
+        if (!post.getUser().getId().equals(currentUserId)) {
             throw new UnauthorizedActionException("current user is not authorized to edit this post!");
         }
 
