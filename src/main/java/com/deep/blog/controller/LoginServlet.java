@@ -39,6 +39,7 @@ public class LoginServlet extends HttpServlet {
 
         if (loggedInUser == null) {
             req.setAttribute("error", "invalid username or password");
+            resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req, resp);
             return;
         }
@@ -49,6 +50,7 @@ public class LoginServlet extends HttpServlet {
 
         String redirectUrl = (String) session.getAttribute("redirectAfterLogin");
 
+        resp.setStatus(HttpServletResponse.SC_OK);
         if (redirectUrl != null) {
             session.removeAttribute("redirectAfterLogin");
             resp.sendRedirect(redirectUrl);
